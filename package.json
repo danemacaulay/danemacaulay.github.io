@@ -1,33 +1,47 @@
 {
-  "name": "faces-ui",
+  "name": "ui",
+  "version": "0.1.0",
   "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "concurrently \"npm run dev:css\" \"vite\"",
-    "dev:css": "tailwindcss -w -i ./src/tailwind.css -o src/app.css",
-    "build": "npm run build:css && tsc && vite build",
-    "build:css": "tailwindcss -m -i ./src/tailwind.css -o src/app.css",
-    "preview": "vite preview"
-  },
   "dependencies": {
-    "@supabase/auth-ui-react": "",
-    "@supabase/auth-ui-shared": "",
-    "@supabase/supabase-js": "^2.21.0",
+    "@emotion/styled": "^11.11.0",
+    "@mui/joy": "^5.0.0-beta.8",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^27.5.2",
+    "@types/node": "^16.18.54",
+    "@types/react": "^18.2.23",
+    "@types/react-dom": "^18.2.8",
+    "axios": "^1.5.1",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-dropzone": "^14.2.3",
+    "react-scripts": "5.0.1",
+    "typescript": "^4.9.5",
+    "web-vitals": "^2.1.4"
   },
-  "devDependencies": {
-    "@emotion/react": "^11.10.6",
-    "@emotion/styled": "^11.10.6",
-    "@types/react": "^18.0.27",
-    "@types/react-dom": "^18.0.10",
-    "@vitejs/plugin-react": "^3.1.0",
-    "autoprefixer": "^10.4.13",
-    "concurrently": "^7.6.0",
-    "postcss": "^8.4.21",
-    "tailwindcss": "^3.2.7",
-    "typescript": "^4.9.3",
-    "vite": "^4.1.0"
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build && mv build docs",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
