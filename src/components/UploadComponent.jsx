@@ -175,8 +175,8 @@ const UploadComponent = () => {
             >
               <input {...getInputProps()} />
               <p>
-                Drag and drop a file here, or click to select a file, or paste
-                from clipboard
+                Drag and drop a file here, click to select a file, or paste from
+                clipboard
               </p>
             </Button>
           )}
