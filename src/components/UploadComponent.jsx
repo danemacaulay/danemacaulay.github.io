@@ -39,9 +39,11 @@ function ImageList({ images, uploaded, getSimilar }) {
             </AspectRatio>
             <Typography level="h6" noWrap>
               <Link
-                href={image.wiki_url ? image.wiki_url : "#"}
+                href={
+                  image.wiki_url ||
+                  "https://www.wikidata.org/wiki/" + image.wiki_id
+                }
                 target="_blank"
-                disabled={!image.wiki_url}
               >
                 {image.name} - {parseFloat(image.score).toFixed(2)}
               </Link>
@@ -54,7 +56,6 @@ function ImageList({ images, uploaded, getSimilar }) {
 }
 
 const UploadComponent = () => {
-  const [uploadedFiles, setUploadedFiles] = useState([]);
   const [results, setResults] = useState({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -84,7 +85,6 @@ const UploadComponent = () => {
   ];
 
   const onDrop = (acceptedFiles) => {
-    setUploadedFiles(acceptedFiles);
     uploadFiles(acceptedFiles);
     const file = acceptedFiles?.[0];
     const url = URL.createObjectURL(file);
@@ -92,7 +92,6 @@ const UploadComponent = () => {
   };
 
   const clear = () => {
-    setUploadedFiles();
     setSeedImage();
     setResults({});
   };
