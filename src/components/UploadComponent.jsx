@@ -65,7 +65,7 @@ const UploadComponent = () => {
     });
 
     try {
-      const r = await axios.post("https://www.facesearch.net/faces", formData, {
+      const r = await axios.post("/faces", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
