@@ -175,8 +175,8 @@ const UploadComponent = () => {
             >
               <input {...getInputProps()} />
               <p>
-                Drag and drop a file here, click to select a file, or paste from
-                clipboard
+                Drag and drop an image here, click to provide one, or paste from
+                the clipboard
               </p>
             </Button>
           )}
@@ -210,7 +210,7 @@ const UploadComponent = () => {
       />
       {!seedImage && (
         <Box>
-          <Typography sx={{ mb: 1 }}>Or try some of these:</Typography>
+          <Typography sx={{ mb: 1 }}>Try some of these:</Typography>
           {demos.map((d) => {
             return (
               <Button
