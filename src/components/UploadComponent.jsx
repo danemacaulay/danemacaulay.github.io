@@ -8,7 +8,7 @@ import Alert from "@mui/joy/Alert";
 import Link from "@mui/joy/Link";
 import AspectRatio from "@mui/joy/AspectRatio";
 
-function ImageList({ images, uploaded }) {
+function ImageList({ images, uploaded, getSimilar }) {
   return (
     <Box>
       {uploaded && (
@@ -21,25 +21,32 @@ function ImageList({ images, uploaded }) {
           <Typography level="h6">Uploaded</Typography>
         </Box>
       )}
-      {images?.map((image, index) => (
-        <Box
-          key={index}
-          sx={{ display: "inline-block", overflowX: "hidden", width: 200 }}
-        >
-          <AspectRatio ratio="9/16">
-            <Link
-              href={image.wiki_url ? image.wiki_url : "#"}
-              target="_blank"
-              disabled={!image.wiki_url}
-            >
-              <img src={image.image} alt={image.name} />
-            </Link>
-          </AspectRatio>
-          <Typography level="h6" noWrap>
-            {image.name} - {parseFloat(image.score).toFixed(2)}
-          </Typography>
-        </Box>
-      ))}
+      {images?.map((image, index) => {
+        return (
+          <Box
+            key={index}
+            sx={{ display: "inline-block", overflowX: "hidden", width: 200 }}
+          >
+            <AspectRatio ratio="9/16">
+              <Box
+                onClick={() => getSimilar(image.image)}
+                sx={{ cursor: "pointer" }}
+              >
+                <img src={image.image} alt={image.name} />
+              </Box>
+            </AspectRatio>
+            <Typography level="h6" noWrap>
+              <Link
+                href={image.wiki_url ? image.wiki_url : "#"}
+                target="_blank"
+                disabled={!image.wiki_url}
+              >
+                {image.name} - {parseFloat(image.score).toFixed(2)}
+              </Link>
+            </Typography>
+          </Box>
+        );
+      })}
     </Box>
   );
 }
@@ -49,10 +56,14 @@ const UploadComponent = () => {
   const [results, setResults] = useState({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [seedImage, setSeedImage] = useState("");
 
   const onDrop = (acceptedFiles) => {
     setUploadedFiles(acceptedFiles);
     uploadFiles(acceptedFiles);
+    const file = uploadedFiles?.[0];
+    const url = URL.createObjectURL(file);
+    setSeedImage(url);
   };
 
   const uploadFiles = async (files) => {
@@ -72,16 +83,26 @@ const UploadComponent = () => {
       });
       setResults(r.data);
       setError("");
-      // Handle successful upload
     } catch (error) {
       setError(error);
-      // Handle upload error
     }
     setLoading(false);
   };
 
-  const file = uploadedFiles?.[0];
-  const uploaded = file ? URL.createObjectURL(file) : false;
+  const getSimilar = async (url) => {
+    setError("");
+    setResults({});
+    setLoading(true);
+    setSeedImage(url);
+    try {
+      const r = await axios.post("/faces", { url });
+      setResults(r.data);
+      setError("");
+    } catch (error) {
+      setError(error);
+    }
+    setLoading(false);
+  };
 
   return (
     <Box>
@@ -107,7 +128,11 @@ const UploadComponent = () => {
           </Alert>
         </Box>
       )}
-      <ImageList images={results.wiki} uploaded={uploaded} />
+      <ImageList
+        images={results.wiki}
+        uploaded={seedImage}
+        getSimilar={getSimilar}
+      />
     </Box>
   );
 };
