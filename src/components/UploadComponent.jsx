@@ -191,7 +191,7 @@ const UploadComponent = () => {
             return (
               <Button
                 variant="outlined"
-                sx={{ mr: 1 }}
+                sx={{ mr: 1, mb: 1 }}
                 key={d.name}
                 onClick={() => getSimilar(d.url)}
               >
