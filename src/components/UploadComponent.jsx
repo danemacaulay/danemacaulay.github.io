@@ -174,7 +174,10 @@ const UploadComponent = () => {
               sx={{ width: "100%", height: "100px" }}
             >
               <input {...getInputProps()} />
-              <p>Drag and drop a file here, or click to select a file</p>
+              <p>
+                Drag and drop a file here, or click to select a file, or paste
+                from clipboard
+              </p>
             </Button>
           )}
         </Dropzone>
