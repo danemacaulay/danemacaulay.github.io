@@ -100,11 +100,15 @@ const UploadComponent = () => {
     },
   ];
 
-  const onDrop = (acceptedFiles) => {
-    uploadFiles(acceptedFiles);
-    const file = acceptedFiles?.[0];
+  const processFiles = (files) => {
+    const file = files?.[0];
     const url = URL.createObjectURL(file);
     setSeedImage(url);
+  };
+
+  const onDrop = (acceptedFiles) => {
+    processFiles(acceptedFiles);
+    uploadFiles(acceptedFiles);
   };
 
   const clear = () => {
@@ -153,6 +157,7 @@ const UploadComponent = () => {
   useEffect(() => {
     window.addEventListener("paste", (e) => {
       if (e.clipboardData.files.length === 0) return;
+      processFiles(e.clipboardData.files);
       uploadFiles(e.clipboardData.files);
     });
   }, []);
