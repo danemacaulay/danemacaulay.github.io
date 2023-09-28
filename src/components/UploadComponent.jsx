@@ -14,20 +14,36 @@ function ImageList({ images, uploaded, getSimilar }) {
   return (
     <Box>
       {uploaded && (
-        <Box sx={{ display: "inline-block", overflowX: "hidden", width: 200 }}>
+        <Box
+          sx={{
+            display: "inline-block",
+            overflowX: "hidden",
+            width: 200,
+            mb: 1,
+            mt: 1,
+          }}
+        >
           <AspectRatio ratio="9/16">
             <Link href="#">
               <img src={uploaded} alt="uploaded" />
             </Link>
           </AspectRatio>
-          <Typography level="h6">Source image</Typography>
+          <Typography level="h6" sx={{ mt: 1 }}>
+            Source image
+          </Typography>
         </Box>
       )}
       {images?.map((image, index) => {
         return (
           <Box
             key={index}
-            sx={{ display: "inline-block", overflowX: "hidden", width: 200 }}
+            sx={{
+              display: "inline-block",
+              overflowX: "hidden",
+              width: 200,
+              mb: 1,
+              mt: 1,
+            }}
           >
             <AspectRatio ratio="9/16">
               <Box
@@ -37,7 +53,7 @@ function ImageList({ images, uploaded, getSimilar }) {
                 <img src={image.image} alt={image.name} />
               </Box>
             </AspectRatio>
-            <Typography level="h6" noWrap>
+            <Typography level="h6" sx={{ mt: 1 }} noWrap>
               <Link
                 href={
                   image.wiki_url ||
