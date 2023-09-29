@@ -5,71 +5,10 @@ import Typography from "@mui/joy/Typography";
 import Button from "@mui/joy/Button";
 import Box from "@mui/joy/Box";
 import Alert from "@mui/joy/Alert";
-import Link from "@mui/joy/Link";
 import IconButton from "@mui/joy/IconButton";
-import AspectRatio from "@mui/joy/AspectRatio";
 import CloseIcon from "@mui/icons-material/Close";
-
-function ImageList({ images, uploaded, getSimilar }) {
-  return (
-    <Box>
-      {uploaded && (
-        <Box
-          sx={{
-            display: "inline-block",
-            overflowX: "hidden",
-            width: 200,
-            mb: 1,
-            mt: 1,
-          }}
-        >
-          <AspectRatio ratio="9/16">
-            <Link href="#">
-              <img src={uploaded} alt="uploaded" />
-            </Link>
-          </AspectRatio>
-          <Typography level="h6" sx={{ mt: 1 }}>
-            Source image
-          </Typography>
-        </Box>
-      )}
-      {images?.map((image, index) => {
-        return (
-          <Box
-            key={index}
-            sx={{
-              display: "inline-block",
-              overflowX: "hidden",
-              width: 200,
-              mb: 1,
-              mt: 1,
-            }}
-          >
-            <AspectRatio ratio="9/16">
-              <Box
-                onClick={() => getSimilar(image.image)}
-                sx={{ cursor: "pointer" }}
-              >
-                <img src={image.image} alt={image.name} />
-              </Box>
-            </AspectRatio>
-            <Typography level="h6" sx={{ mt: 1 }} noWrap>
-              <Link
-                href={
-                  image.wiki_url ||
-                  "https://www.wikidata.org/wiki/" + image.wiki_id
-                }
-                target="_blank"
-              >
-                {image.name} - {parseFloat(image.score).toFixed(2)}
-              </Link>
-            </Typography>
-          </Box>
-        );
-      })}
-    </Box>
-  );
-}
+import ImageList from "./ImageList";
+import Search from "./Search";
 
 const UploadComponent = () => {
   const [results, setResults] = useState({});
@@ -140,6 +79,7 @@ const UploadComponent = () => {
   };
 
   const getSimilar = async (url) => {
+    if (!url?.length) return;
     setError("");
     setResults({});
     setLoading(true);
@@ -164,6 +104,9 @@ const UploadComponent = () => {
 
   return (
     <Box>
+      <Box sx={{ margin: "auto", width: 400, mt: 2 }}>
+        <Search getSimilar={getSimilar} />
+      </Box>
       <Box sx={{ m: 2, mr: 6, ml: 6 }}>
         <Dropzone onDrop={onDrop}>
           {({ getRootProps, getInputProps }) => (

@@ -3,7 +3,7 @@ const SvgComponent = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     {...props}
-    style={{ overflow: "visible", marginTop: -72 }}
+    style={{ overflow: "visible", marginTop: -72, marginLeft: -38 }}
   >
     <g fill="#333" className="iconlettersvg-g iconlettersvg">
       <g className="tp-name">
