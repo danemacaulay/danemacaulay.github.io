@@ -12,14 +12,18 @@ import { useState, useCallback } from "react";
 const Search = ({ getSimilar }) => {
   const [options, setOptions] = useState([]);
   const [isPerson, setIsPerson] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const fetchMainImage = async (pageId) => {
+    setLoading(true);
     const response = await fetch(
       `https://en.wikipedia.org/w/api.php?action=query&prop=pageimages&format=json&origin=*&pageids=${pageId}&piprop=original`,
     );
     const data = await response.json();
     const page = data.query.pages[pageId];
-    return page.original ? page.original.source : null;
+    const hasImage = page.original ? page.original.source : null;
+    setIsPerson(hasImage);
+    return hasImage;
   };
 
   const fetchCategories = async (pageId) => {
@@ -40,6 +44,7 @@ const Search = ({ getSimilar }) => {
 
   const fetchOptions = useCallback(
     debounce(async (searchTerm) => {
+      setLoading(true);
       const response = await fetch(
         `https://en.wikipedia.org/w/api.php?action=query&list=search&format=json&origin=*&srsearch=${searchTerm}`,
       );
@@ -53,6 +58,7 @@ const Search = ({ getSimilar }) => {
   return (
     <FormControl error={!isPerson}>
       <Autocomplete
+        loading={loading}
         placeholder="Search for people in Wikipedia"
         onInputChange={(event, newValue) => {
           setIsPerson(true);
@@ -63,8 +69,13 @@ const Search = ({ getSimilar }) => {
           if (newValue) {
             fetchCategories(newValue.pageid).then((isPerson) => {
               setIsPerson(isPerson);
+              setLoading(false);
               if (!isPerson) return;
-              fetchMainImage(newValue.pageid).then(getSimilar);
+              fetchMainImage(newValue.pageid)
+                .then(getSimilar)
+                .then(() => {
+                  setLoading(false);
+                });
             });
           }
         }}

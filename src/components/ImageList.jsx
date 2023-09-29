@@ -4,19 +4,19 @@ import Box from "@mui/joy/Box";
 import Link from "@mui/joy/Link";
 import AspectRatio from "@mui/joy/AspectRatio";
 
+const imgStyle = {
+  display: "inline-block",
+  overflowX: "hidden",
+  width: 160,
+  mb: 1,
+  mt: 1,
+};
+
 export default function ImageList({ images, uploaded, getSimilar }) {
   return (
     <Box>
       {uploaded && (
-        <Box
-          sx={{
-            display: "inline-block",
-            overflowX: "hidden",
-            width: 200,
-            mb: 1,
-            mt: 1,
-          }}
-        >
+        <Box sx={imgStyle}>
           <AspectRatio ratio="9/16">
             <Link href="#">
               <img src={uploaded} alt="uploaded" />
@@ -29,16 +29,7 @@ export default function ImageList({ images, uploaded, getSimilar }) {
       )}
       {images?.map((image, index) => {
         return (
-          <Box
-            key={index}
-            sx={{
-              display: "inline-block",
-              overflowX: "hidden",
-              width: 200,
-              mb: 1,
-              mt: 1,
-            }}
-          >
+          <Box sx={imgStyle}>
             <AspectRatio ratio="9/16">
               <Box
                 onClick={() => getSimilar(image.image)}
