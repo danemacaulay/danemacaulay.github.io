@@ -1,4 +1,10 @@
-import { Autocomplete, FormControl, FormHelperText } from "@mui/joy";
+import {
+  Autocomplete,
+  FormControl,
+  FormHelperText,
+  AutocompleteOption,
+  ListItemContent,
+} from "@mui/joy";
 import debounce from "lodash.debounce";
 
 import { useState, useCallback } from "react";
@@ -65,7 +71,13 @@ const Search = ({ getSimilar }) => {
         options={options}
         isOptionEqualToValue={(option, value) => option.title === value.title}
         getOptionLabel={(option) => option.title}
-        renderOption={(props, option) => <div {...props}>{option.title}</div>}
+        renderOption={(props, option) => (
+          <AutocompleteOption {...props}>
+            <ListItemContent sx={{ fontSize: "sm" }}>
+              {option.title}
+            </ListItemContent>
+          </AutocompleteOption>
+        )}
       />
       {!isPerson && <FormHelperText>Could not find a picture</FormHelperText>}
     </FormControl>
