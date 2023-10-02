@@ -12,7 +12,7 @@ const imgStyle = {
   mt: 1,
 };
 
-export default function ImageList({ images, uploaded, getSimilar }) {
+export default function ImageList({ images, uploaded, getSimilar = () => {} }) {
   return (
     <Box>
       {uploaded && (
@@ -28,14 +28,13 @@ export default function ImageList({ images, uploaded, getSimilar }) {
         </Box>
       )}
       {images?.map((image, index) => {
+        const url = image.image || image.wiki_image;
+        const score = parseFloat(image.score).toFixed(2);
         return (
           <Box sx={imgStyle}>
             <AspectRatio ratio="9/16">
-              <Box
-                onClick={() => getSimilar(image.image)}
-                sx={{ cursor: "pointer" }}
-              >
-                <img src={image.image} alt={image.name} />
+              <Box onClick={() => getSimilar(url)} sx={{ cursor: "pointer" }}>
+                <img src={url} alt={image.name} />
               </Box>
             </AspectRatio>
             <Typography level="h6" sx={{ mt: 1 }} noWrap>
@@ -46,7 +45,7 @@ export default function ImageList({ images, uploaded, getSimilar }) {
                 }
                 target="_blank"
               >
-                {image.name} - {parseFloat(image.score).toFixed(2)}
+                {image.name} {image?.score ? "- " + score : ""}
               </Link>
             </Typography>
           </Box>
