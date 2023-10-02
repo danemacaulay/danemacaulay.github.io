@@ -20,7 +20,7 @@ function App() {
           }
         >
           <Route index element={<UploadComponent />} />
-          <Route path="clusters" element={<Clusters />} />
+          <Route path="cluster" element={<Clusters />} />
         </Route>
       </Routes>
     </div>
